@@ -34,8 +34,8 @@ namespace DeltaTune.Display
 
         public void BeginRun()
         {
-            primaryDisplay = new MusicTitleDisplay(musicTitleFont, settingsService, windowSizeProvider);
-            secondaryDisplay = new MusicTitleDisplay(musicTitleFont, settingsService, windowSizeProvider);
+            primaryDisplay = new MusicTitleDisplay(musicTitleFont, windowSizeProvider, settingsService, mediaFormatter);
+            secondaryDisplay = new MusicTitleDisplay(musicTitleFont, windowSizeProvider, settingsService, mediaFormatter);
         }
 
         public void Update(GameTime gameTime)
@@ -124,7 +124,7 @@ namespace DeltaTune.Display
 
             if (primaryDisplay.State != MusicTitleDisplayState.Disappearing && primaryDisplay.State != MusicTitleDisplayState.Hidden)
             {
-                primaryDisplay.Text = mediaFormatter.Format(currentMediaInfo);
+                primaryDisplay.Content = currentMediaInfo;
             }
         }
         

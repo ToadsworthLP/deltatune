@@ -12,12 +12,12 @@ namespace DeltaTune.Display
 {
     public class MusicTitleDisplay : IMusicTitleDisplay, IDisposable
     {
-        public string Text
+        public MediaInfo Content
         {
-            get => text;
+            get => content;
             set
             {
-                text = value;
+                content = value;
                 UpdateText();
             }
         }
@@ -41,6 +41,7 @@ namespace DeltaTune.Display
 
         private readonly BitmapFont font;
         private readonly ISettingsService settingsService;
+        private readonly IMediaFormatter formatter;
         private readonly Func<Vector2> windowSizeProvider;
         private readonly Observable<Vector2> windowSize;
 
@@ -57,11 +58,13 @@ namespace DeltaTune.Display
         private readonly IDisposable scaleFactorSubscription;
         private readonly IDisposable positionSubscription;
         
-        public MusicTitleDisplay(BitmapFont font, ISettingsService settingsService, Func<Vector2> windowSizeProvider)
+        public MusicTitleDisplay(BitmapFont font, Func<Vector2> windowSizeProvider, ISettingsService settingsService,
+            IMediaFormatter formatter)
         {
             this.font = font;
             this.settingsService = settingsService;
             this.windowSizeProvider = windowSizeProvider;
+            this.formatter = formatter;
 
             windowSize = Observable.EveryValueChanged(this, display => display.windowSizeProvider.Invoke());
             
@@ -165,6 +168,8 @@ namespace DeltaTune.Display
 
         private void UpdateText()
         {
+            text = formatter.Format(content);
+            
             if (State == MusicTitleDisplayState.Disappearing || State == MusicTitleDisplayState.Hidden) return;
             
             textSize = font.MeasureString(text);
