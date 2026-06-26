@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using DeltaTune.Discord;
 using DeltaTune.Display;
 using DeltaTune.Media;
 using DeltaTune.Settings;
@@ -21,6 +22,7 @@ namespace DeltaTune
         private ISettingsMenu settingsMenu;
         private ISettingsService settingsService;
         private ISettingsFile settingsFile;
+        private IDiscordService discordService;
 
         private SpriteBatch spriteBatch;
         private BitmapFont musicTitleFont;
@@ -46,7 +48,7 @@ namespace DeltaTune
         { 
             settingsService = new SettingsService();
             settingsFile = new SettingsFile(settingsService, Path.Combine(relativePathRoot, "Settings.json"));
-            settingsMenu = new SettingsMenu(settingsService);
+            settingsMenu = new SettingsMenu(settingsService, () => this.discordService);
             
             mediaInfoService = new SystemMediaInfoService(new MediaFilter());
             
@@ -74,8 +76,11 @@ namespace DeltaTune
             windowService = new WindowService(this, graphicsDeviceManagerInstance, settingsMenu, settingsService, musicTitleFont.LineHeight);
             windowService.InitializeWindow();
 
+            discordService = new DiscordService(settingsService);
+            discordService.UpdateState();
+
             Vector2 WindowSizeProvider() => new Vector2(graphicsDeviceManagerInstance.GraphicsDevice.Viewport.Width, graphicsDeviceManagerInstance.GraphicsDevice.Viewport.Height);
-            displayService = new DisplayService(mediaInfoService, settingsService, new MediaFormatter(settingsService), musicTitleFont, WindowSizeProvider);
+            displayService = new DisplayService(mediaInfoService, settingsService, new MediaFormatter(settingsService), musicTitleFont, WindowSizeProvider, discordService);
             displayService.BeginRun();
             
             base.BeginRun();

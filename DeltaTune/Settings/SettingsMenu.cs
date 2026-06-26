@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
+using DeltaTune.Discord;
 using DeltaTune.Window;
 using SharpDX;
 
@@ -11,11 +13,13 @@ namespace DeltaTune.Settings
         private static readonly float[] hideAutomaticallyDelayOptions = new[] { 1f, 2.5f, 5f, 7.5f, 10f };
         
         private readonly ISettingsService settingsService;
+        private readonly Func<IDiscordService> discord;
         private ContextMenuStrip settingsMenuStrip;
 
-        public SettingsMenu(ISettingsService settingsService)
+        public SettingsMenu(ISettingsService settingsService, Func<IDiscordService> discord)
         {
             this.settingsService = settingsService;
+            this.discord = discord;
         }
 
         public ContextMenuStrip GetSettingsMenu()
@@ -179,6 +183,15 @@ namespace DeltaTune.Settings
             showPlaybackStatusItem.Checked = settingsService.ShowPlaybackStatus.Value;
             showPlaybackStatusItem.Click += (sender, args) => settingsService.ShowPlaybackStatus.Value = !settingsService.ShowPlaybackStatus.Value;
             behaviorItem.DropDownItems.Add(showPlaybackStatusItem);
+
+            ToolStripMenuItem enableDiscordItem = new ToolStripMenuItem();
+            enableDiscordItem.Text = "Enable Discord Rich Presence";
+            enableDiscordItem.Checked = settingsService.EnableDiscordRichPresence.Value;
+            enableDiscordItem.Click += (sender, args) => {
+                settingsService.EnableDiscordRichPresence.Value = !settingsService.EnableDiscordRichPresence.Value;
+                discord.Invoke()?.UpdateState();
+            };
+            behaviorItem.DropDownItems.Add(enableDiscordItem);
             
             ToolStripMenuItem screenCaptureCompatItem = new ToolStripMenuItem();
             screenCaptureCompatItem.Text = "Streamer Mode";

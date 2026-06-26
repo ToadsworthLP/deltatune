@@ -1,4 +1,5 @@
 using System;
+using DeltaTune.Discord;
 using DeltaTune.Media;
 using DeltaTune.Settings;
 using Microsoft.Xna.Framework;
@@ -16,6 +17,7 @@ namespace DeltaTune.Display
         private readonly IMediaFormatter mediaFormatter;
         private readonly Func<Vector2> windowSizeProvider;
         private readonly BitmapFont musicTitleFont;
+        private readonly IDiscordService discordService;
         
         private MediaInfo currentMediaInfo;
         private IMusicTitleDisplay primaryDisplay;
@@ -23,13 +25,14 @@ namespace DeltaTune.Display
 
         private double lastMediaInfoUpdateTime;
         
-        public DisplayService(IMediaInfoService mediaInfoService, ISettingsService settingsService, IMediaFormatter mediaFormatter, BitmapFont musicTitleFont, Func<Vector2> windowSizeProvider)
+        public DisplayService(IMediaInfoService mediaInfoService, ISettingsService settingsService, IMediaFormatter mediaFormatter, BitmapFont musicTitleFont, Func<Vector2> windowSizeProvider, IDiscordService discordService)
         {
             this.mediaInfoService = mediaInfoService;
             this.settingsService = settingsService;
             this.musicTitleFont = musicTitleFont;
             this.windowSizeProvider = windowSizeProvider;
             this.mediaFormatter = mediaFormatter;
+            this.discordService = discordService;
         }
 
         public void BeginRun()
@@ -52,6 +55,11 @@ namespace DeltaTune.Display
             }
 
             bool shouldUpdateDisplayState = settingsService.ShowPlaybackStatus.Value ? titleChanged || artistChanged || statusChanged : titleChanged || artistChanged;
+
+            if (titleChanged || artistChanged)
+            {
+                discordService.UpdateDisplay(currentMediaInfo);
+            }
 
             // Even if playback status shouldn't be shown, show the song title again when resuming playback
             if (!shouldUpdateDisplayState && !settingsService.ShowPlaybackStatus.Value && statusChanged &&

@@ -16,6 +16,7 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
         <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.4654" />
         <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />

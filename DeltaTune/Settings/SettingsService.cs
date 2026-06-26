@@ -13,5 +13,6 @@ namespace DeltaTune.Settings
         public ReactiveProperty<bool> ShowPlaybackStatus { get; } = new ReactiveProperty<bool>(false);
         public ReactiveProperty<float?> HideAutomatically { get; } = new ReactiveProperty<float?>(2.5f);
         public ReactiveProperty<bool> ScreenCaptureCompatibilityMode { get; } = new ReactiveProperty<bool>(false);
+        public ReactiveProperty<bool> EnableDiscordRichPresence { get; } = new ReactiveProperty<bool>(true);
     }
 }

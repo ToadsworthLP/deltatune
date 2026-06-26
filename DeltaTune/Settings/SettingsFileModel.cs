@@ -11,6 +11,7 @@ namespace DeltaTune.Settings
         public bool ShowPlaybackStatus { get; set; } = false;
         public float? HideAutomatically { get; set; } = 2.5f;
         public bool ScreenCaptureCompatibilityMode { get; set; } = false;
+        public bool EnableDiscordRichPresence { get; set; } = true;
 
         public void FromSettings(ISettingsService settingsService)
         {
@@ -21,6 +22,7 @@ namespace DeltaTune.Settings
             ShowPlaybackStatus = settingsService.ShowPlaybackStatus.Value;
             HideAutomatically = settingsService.HideAutomatically.Value;
             ScreenCaptureCompatibilityMode = settingsService.ScreenCaptureCompatibilityMode.Value;
+            EnableDiscordRichPresence = settingsService.EnableDiscordRichPresence.Value;
         }
 
         public void ToSettings(ISettingsService settingsService)
@@ -32,6 +34,7 @@ namespace DeltaTune.Settings
             settingsService.ShowPlaybackStatus.Value = ShowPlaybackStatus;
             settingsService.HideAutomatically.Value = HideAutomatically;
             settingsService.ScreenCaptureCompatibilityMode.Value = ScreenCaptureCompatibilityMode;
+            settingsService.EnableDiscordRichPresence.Value = EnableDiscordRichPresence;
         }
     }
 }

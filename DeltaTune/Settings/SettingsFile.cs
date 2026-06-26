@@ -29,6 +29,7 @@ namespace DeltaTune.Settings
             settingsService.ShowPlaybackStatus.Subscribe(state => saveEvent.OnNext(Unit.Default)).AddTo(ref valueChangeDisposableBuilder);
             settingsService.HideAutomatically.Subscribe(state => saveEvent.OnNext(Unit.Default)).AddTo(ref valueChangeDisposableBuilder);
             settingsService.ScreenCaptureCompatibilityMode.Subscribe(state => saveEvent.OnNext(Unit.Default)).AddTo(ref valueChangeDisposableBuilder);
+            settingsService.EnableDiscordRichPresence.Subscribe(state => saveEvent.OnNext(Unit.Default)).AddTo(ref valueChangeDisposableBuilder);
             valueChangeSubscription = valueChangeDisposableBuilder.Build();
 
             saveSubscription = saveEvent.DebounceFrame(1).Subscribe(_ => Save());
