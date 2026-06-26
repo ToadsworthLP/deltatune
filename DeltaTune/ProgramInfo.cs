@@ -4,7 +4,7 @@ namespace DeltaTune
     {
         public const string Name = "DeltaTune";
         public const string Author = "Toastworth";
-        public const string Version = "1.2.1.0";
+        public const string Version = "1.2.2.0";
         public const string VersionSuffix = "";
         public const string Disclaimer = "DELTARUNE was created by Toby Fox.\nNot affiliated with or endorsed by Toby Fox.";
         public const string Credits = @"Additional Credits:
