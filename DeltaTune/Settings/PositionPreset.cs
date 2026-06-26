@@ -6,6 +6,7 @@ namespace DeltaTune.Settings
         TopRight,
         BottomLeft,
         BottomRight,
-        Original
+        Chapter1,
+        Chapter5
     }
 }

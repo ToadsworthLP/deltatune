@@ -109,11 +109,17 @@ namespace DeltaTune.Settings
             bottomRightItem.Click += (sender, args) => settingsService.Position.Value = PositionPresetHelper.GetFractionalPosition(PositionPreset.BottomRight);
             positionItem.DropDownItems.Add(bottomRightItem);
             
-            ToolStripMenuItem originalItem = new ToolStripMenuItem();
-            originalItem.Text = "Original";
-            originalItem.Checked = PositionPresetHelper.GetFractionalPosition(PositionPreset.Original) == settingsService.Position.Value;
-            originalItem.Click += (sender, args) => settingsService.Position.Value = PositionPresetHelper.GetFractionalPosition(PositionPreset.Original);
-            positionItem.DropDownItems.Add(originalItem);
+            ToolStripMenuItem chapter1Item = new ToolStripMenuItem();
+            chapter1Item.Text = "Original (Chapter 1)";
+            chapter1Item.Checked = PositionPresetHelper.GetFractionalPosition(PositionPreset.Chapter1) == settingsService.Position.Value;
+            chapter1Item.Click += (sender, args) => settingsService.Position.Value = PositionPresetHelper.GetFractionalPosition(PositionPreset.Chapter1);
+            positionItem.DropDownItems.Add(chapter1Item);
+            
+            ToolStripMenuItem chapter5Item = new ToolStripMenuItem();
+            chapter5Item.Text = "Original (Chapter 5)";
+            chapter5Item.Checked = PositionPresetHelper.GetFractionalPosition(PositionPreset.Chapter5) == settingsService.Position.Value;
+            chapter5Item.Click += (sender, args) => settingsService.Position.Value = PositionPresetHelper.GetFractionalPosition(PositionPreset.Chapter5);
+            positionItem.DropDownItems.Add(chapter5Item);
 
             return positionItem;
         }
